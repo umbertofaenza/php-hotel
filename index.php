@@ -40,6 +40,9 @@ $hotels = [
 
 ];
 
+$has_filter = !empty($_GET);
+$parking_only = $_GET["parking"] ?? false;
+
 ?>
 
 <!DOCTYPE html>
@@ -59,9 +62,25 @@ $hotels = [
 </head>
 
 <body>
-    <div class="container">
+    <div class="container my-5">
+        <!-- form -->
+        <h3>Filters</h3>
+        <form method="GET">
+            <!-- parking select -->
+            <div>
+                <label for="parking">Parking only:</label>
+                <select name="parking" id="parking">
+                    <option value="" selected>Select...</option>
+                    <option value="true">Yes</option>
+                </select>
+            </div>
+
+            <!-- submit button -->
+            <button class="my-3" type="submit">Filter</button>
+        </form>
+
         <!-- table -->
-        <table class="table my-5">
+        <table class="table">
             <!-- head -->
             <thead>
                 <tr>
@@ -75,21 +94,45 @@ $hotels = [
             <!-- body -->
             <tbody>
                 <?php foreach ($hotels as $hotel): ?>
-                    <!-- t-row -->
-                    <tr>
-                        <?php foreach ($hotel as $key => $value): ?>
-                            <!-- t-data -->
-                            <td>
-                                <?php
-                                if ($key == "parking" && $value == true) {
-                                    $value = "Yes";
-                                } else if ($key == "parking" && $value == false) {
-                                    $value = "No";
-                                }
-                                echo $value ?>
-                            </td>
-                        <? endforeach; ?>
-                    </tr>
+                    <!-- IF NO FILTER -->
+                    <?php if (!$has_filter): ?>
+                        <!-- t-row -->
+                        <tr>
+                            <?php foreach ($hotel as $key => $value): ?>
+                                <!-- t-data -->
+                                <td>
+                                    <?php
+                                    if ($key == "parking" && $value == true) {
+                                        $value = "Yes";
+                                    } else if ($key == "parking" && $value == false) {
+                                        $value = "No";
+                                    }
+                                    echo $value ?>
+                                </td>
+                            <? endforeach; ?>
+                        </tr>
+
+
+                        <!-- ELSE PARKING ONLY -->
+                    <?php elseif ($parking_only): ?>
+                        <!-- t-row -->
+                        <tr>
+                            <?php foreach ($hotel as $key => $value): ?>
+                                <?php if ($hotel["parking"] == true): ?>
+                                    <!-- t-data -->
+                                    <td>
+                                        <?php
+                                        if ($key == "parking" && $value == true) {
+                                            $value = "Yes";
+                                        } else if ($key == "parking" && $value == false) {
+                                            $value = "No";
+                                        }
+                                        echo $value ?>
+                                    </td>
+                                <? endif; ?>
+                            <? endforeach; ?>
+                        </tr>
+                    <? endif; ?>
                 <? endforeach; ?>
             </tbody>
         </table>

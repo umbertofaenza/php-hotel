@@ -59,14 +59,41 @@ $hotels = [
 </head>
 
 <body>
-    <?php foreach ($hotels as $hotel):
-        foreach ($hotel as $key => $value): ?>
-            <?= "$key: " ?>
-            <?= "$value" ?>
-            <br />
-        <? endforeach; ?>
-        <br />
-    <? endforeach; ?>
+    <div class="container">
+        <!-- table -->
+        <table class="table my-5">
+            <!-- head -->
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Parking</th>
+                    <th scope="col">Vote</th>
+                    <th scope="col">Distance to center</th>
+                </tr>
+            </thead>
+            <!-- body -->
+            <tbody>
+                <?php foreach ($hotels as $hotel): ?>
+                    <!-- t-row -->
+                    <tr>
+                        <?php foreach ($hotel as $key => $value): ?>
+                            <!-- t-data -->
+                            <td>
+                                <?php
+                                if ($key == "parking" && $value == true) {
+                                    $value = "Yes";
+                                } else if ($key == "parking" && $value == false) {
+                                    $value = "No";
+                                }
+                                echo $value ?>
+                            </td>
+                        <? endforeach; ?>
+                    </tr>
+                <? endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </body>
 
 </html>
